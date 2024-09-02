@@ -17,9 +17,9 @@ struct Cli {
 
 const VOW: &str = "aeiou";
 const CON: &str = "bcdfghjklmnpqrstvwxyz";
-const PATTERNS: &[&str] = &[
-    "CCV", "CVC", "VCV", "VVC", "CVV", "VCC", "CVCV", "VCVC", "CVCC", "VCCV", "CVVC", "CCVV",
-];
+// const PATTERNS: &[&str] = &[
+//     "CCV", "CVC", "VCV", "VVC", "CVV", "VCC", "CVCV", "VCVC", "CVCC", "VCCV", "CVVC", "CCVV",
+// ];
 
 fn gen_word(rng: &mut rand::rngs::ThreadRng, config: &WordConfig) -> String {
     let first_vow = rng.gen_range(0..=1);
