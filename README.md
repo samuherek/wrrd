@@ -1,6 +1,6 @@
 # Wrrd
 
-Simple one word project name generator based on random letteres with some simple rules. 
+Simple one word project name generator based on random letteres and simple linguistic rules. 
 
 ## Usage
 
