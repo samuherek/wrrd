@@ -17,9 +17,55 @@ struct Cli {
 
 const VOW: &str = "aeiou";
 const CON: &str = "bcdfghjklmnpqrstvwxyz";
-// const PATTERNS: &[&str] = &[
-//     "CCV", "CVC", "VCV", "VVC", "CVV", "VCC", "CVCV", "VCVC", "CVCC", "VCCV", "CVVC", "CCVV",
-// ];
+
+const FRONT_VOW: &str = "ei";
+const BACK_VOW: &str = "oua";
+const SOFT_CON: &str = "bcdfgmn";
+const HARD_CON: &str = "hjkqrstvwxyz";
+const CON_CLUSTERS: &[&str] = &["bl", "tr", "st", "gr", "pl", "fr"];
+
+// Define common linguistic patterns
+// const PATTERNS: &[&str] = &["CVCV", "VCVC", "CVCC", "VCCV", "CVVC", "CCVV"];
+
+fn gen_word2(rng: &mut rand::rngs::ThreadRng, config: &WordConfig) -> String {
+    let mut next_vow = rng.gen_bool(0.6);
+    let len = rng.gen_range(config.min..=config.max);
+    let mut buf = String::new();
+
+    while buf.len() < len {
+        if next_vow {
+            if rng.gen_bool(0.3) {
+                let idx = rng.gen_range(0..FRONT_VOW.len());
+                buf.push(FRONT_VOW.chars().nth(idx).expect("To get the char"));
+            } else {
+                let idx = rng.gen_range(0..BACK_VOW.len());
+                buf.push(BACK_VOW.chars().nth(idx).expect("To get the char"));
+            }
+        } else {
+            if rng.gen_bool(0.3) && buf.len() < len + 2 {
+                let idx = rng.gen_range(0..CON_CLUSTERS.len());
+                buf.push_str(CON_CLUSTERS[idx]);
+            } else {
+                if rng.gen_bool(0.7) {
+                    let idx = rng.gen_range(0..SOFT_CON.len());
+                    buf.push(SOFT_CON.chars().nth(idx).expect("To get the char"));
+                } else {
+                    let idx = rng.gen_range(0..HARD_CON.len());
+                    buf.push(HARD_CON.chars().nth(idx).expect("To get the char"));
+                }
+            }
+        }
+
+        if config.with_double && rng.gen_bool(0.05) {
+            let c = buf.chars().last().expect("to have last char");
+            buf.push(c);
+        }
+
+        next_vow = !next_vow;
+    }
+
+    buf
+}
 
 fn gen_word(rng: &mut rand::rngs::ThreadRng, config: &WordConfig) -> String {
     let first_vow = rng.gen_range(0..=1);
@@ -87,6 +133,8 @@ fn main() {
         .with_double(true);
 
     for _ in 0..count {
+        let word = gen_word2(&mut rng, &config);
+        println!("{word}");
         let word = gen_word(&mut rng, &config);
         println!("{}", word);
     }
