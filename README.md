@@ -2,6 +2,11 @@
 
 Simple one word project name generator based on random letteres and simple linguistic rules. 
 
+
+## TODO:
+
+[ ] Provided a word, create different variations with changing letters and adding some extensions it as well.
+
 ## Usage
 
 ```
