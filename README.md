@@ -6,6 +6,7 @@ Simple one word project name generator based on random letteres and simple lingu
 ## TODO:
 
 [ ] Provided a word, create different variations with changing letters and adding some extensions it as well.
+[ ] Implement section repetition (example: chacha, bubu, debdeb)...
 
 ## Usage
 
